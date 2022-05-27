@@ -7,6 +7,8 @@ package lab6p2_carlosrivera;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -177,6 +179,11 @@ public class login extends javax.swing.JFrame {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sombreros", "Gafas", "Bufanda", "Chaqueta", "Pantalon", "Zapatos" }));
 
         jButton10.setText("Guardar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField10.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
@@ -259,6 +266,11 @@ public class login extends javax.swing.JFrame {
         jLabel30.setText("Y");
 
         jButton15.setText("Guardar");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField11.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
@@ -359,6 +371,11 @@ public class login extends javax.swing.JFrame {
         jLabel33.setText("Precio");
 
         jButton16.setText("Guardar");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -944,7 +961,7 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       
+
         String usuario = jTextField1.getText();
         String contraseña = new String(jPasswordField1.getPassword());
 
@@ -953,12 +970,15 @@ public class login extends javax.swing.JFrame {
             if (usuario.equals("p") && contraseña.equals("p")) {
                 i = pinguinos.size();
                 admin();
+                JOptionPane.showMessageDialog(null, "Bienvenido " + usuario);
 
             } else if (usuario.equals(pinguinos.get(i).getNombre()) && contraseña.equals(pinguinos.get(i).getContraseña())) {
                 jLabel47.setText(usuario);
                 jLabel49.setText(Integer.toString(pinguinos.get(i).getDinero()));
                 i = pinguinos.size();
+
                 usuarioNormal();
+                JOptionPane.showMessageDialog(null, "Bienvenido " + usuario);
             }
 
         }
@@ -972,6 +992,41 @@ public class login extends javax.swing.JFrame {
             jButton17.setBackground(c);
         }
     }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        String nombre = jTextField4.getText();
+        int precio = ((Number) jFormattedTextField10.getValue()).intValue();
+        String tipo = jComboBox2.getSelectedItem().toString();
+        DefaultTableModel model = (DefaultTableModel) jTable11.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTable16.getModel();
+        Items item = new Items(nombre, precio, tipo);
+        model.addRow(new Items[]{item});
+        model2.addRow(new Items[]{item});
+        JOptionPane.showMessageDialog(null, "Item creado");
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        String nombre = jTextField6.getText();
+        int tamaño = ((Number) jFormattedTextField11.getValue()).intValue();
+        int costo = ((Number) jFormattedTextField12.getValue()).intValue();
+        int x = ((Number) jFormattedTextField15.getValue()).intValue();
+        int y = ((Number) jFormattedTextField16.getValue()).intValue();
+         DefaultTableModel model = (DefaultTableModel) jTable12.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTable17.getModel();
+        ArrayList<Puffles> puffles=new ArrayList();
+        Casas casa = new Casas(nombre, tamaño, costo, x, y, puffles);
+        model.addRow(new Casas[]{casa});
+        model2.addRow(new Casas[]{casa});
+                JOptionPane.showMessageDialog(null, "Casa creado");
+        
+    }//GEN-LAST:event_jButton15ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -13,13 +13,15 @@ import java.util.ArrayList;
  */
 public class Casas {
 
-    private String tamaño;
+    private String nombre;
+    private int tamaño;
     private int costo;
     private int coordenadaX;
     private int coordenadaY;
     private ArrayList<Puffles> puffles;
 
-    public Casas(String tamaño, int costo, int coordenadaX, int coordenadaY, ArrayList<Puffles> puffles) {
+    public Casas(String nombre, int tamaño, int costo, int coordenadaX, int coordenadaY, ArrayList<Puffles> puffles) {
+        this.nombre = nombre;
         this.tamaño = tamaño;
         this.costo = costo;
         this.coordenadaX = coordenadaX;
@@ -27,11 +29,19 @@ public class Casas {
         this.puffles = puffles;
     }
 
-    public String getTamaño() {
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getTamaño() {
         return tamaño;
     }
 
-    public void setTamaño(String tamaño) {
+    public void setTamaño(int tamaño) {
         this.tamaño = tamaño;
     }
 
@@ -69,7 +79,7 @@ public class Casas {
 
     @Override
     public String toString() {
-        return "Casas{" + "tama\u00f1o=" + tamaño + ", costo=" + costo + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + ", puffles=" + puffles + '}';
+        return "Casas{"+"nombre="+nombre + ", tama\u00f1o=" + tamaño + ", costo=" + costo + ", coordenadaX=" + coordenadaX + ", coordenadaY=" + coordenadaY + ", puffles=" + puffles + '}';
     }
 
 }
