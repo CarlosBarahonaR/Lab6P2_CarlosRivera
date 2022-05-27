@@ -18,9 +18,9 @@ public class Pinguinos {
     private boolean socio;
     private int dinero;
     private ArrayList<Items> items;
-    private ArrayList<Casas> casa;
+    private Casas casa;
 
-    public Pinguinos(String nombre, String contraseña, boolean socio, int dinero, ArrayList<Items> items, ArrayList<Casas> casa) {
+    public Pinguinos(String nombre, String contraseña, boolean socio, int dinero, ArrayList<Items> items, Casas casa) {
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.socio = socio;
@@ -69,11 +69,11 @@ public class Pinguinos {
         this.items = items;
     }
 
-    public ArrayList<Casas> getCasa() {
+    public Casas getCasa() {
         return casa;
     }
 
-    public void setCasa(ArrayList<Casas> casa) {
+    public void setCasa(Casas casa) {
         this.casa = casa;
     }
 

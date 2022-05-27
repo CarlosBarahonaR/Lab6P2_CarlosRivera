@@ -671,8 +671,18 @@ public class login extends javax.swing.JFrame {
         jFormattedTextField22.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         jButton20.setText("Comprar Casa");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
 
         jButton21.setText("Vender Casa");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -985,6 +995,7 @@ public class login extends javax.swing.JFrame {
             } else if (usuario.equals(pinguinos.get(i).getNombre()) && contraseña.equals(pinguinos.get(i).getContraseña())) {
                 jLabel47.setText(usuario);
                 jLabel49.setText(Integer.toString(pinguinos.get(i).getDinero()));
+                pinguinoConectado = pinguinos.get(i);
                 i = pinguinos.size();
 
                 usuarioNormal();
@@ -1061,25 +1072,102 @@ public class login extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        
+        int columna = 0;
+        int columna1 = 1;
+        int columna2 = 2;
+        int fila = jTable16.getSelectedRow();
+        if (fila >= 0) {
+            String nombre = jTable16.getModel().getValueAt(fila, columna).toString();
+            int precio = ((Number) jTable16.getModel().getValueAt(fila, columna1)).intValue();
+            String tipo = jTable16.getModel().getValueAt(fila, columna2).toString();
+            if (pinguinoConectado.getDinero() >= precio) {
+                pinguinoConectado.setDinero(pinguinoConectado.getDinero() - precio);
+                pinguinoConectado.getItems().add(new Items(nombre, precio, tipo));
+                DefaultTableModel model2 = (DefaultTableModel) jTable15.getModel();
+                model2.addRow(new Object[]{nombre, tipo});
+                jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
+                JOptionPane.showMessageDialog(null, "Item fue comprado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay un item seleccionado.");
+        }
+
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        // TODO add your handling code here:
+        int columna = 0;
+        int columna1 = 1;
+        int columna2 = 2;
+        int columna3 = 3;
+        int columna4 = 4;
+        int fila = jTable16.getSelectedRow();
+        if (fila >= 0) {
+            String nombre = jTable16.getModel().getValueAt(fila, columna).toString();
+            int tamaño = ((Number) jTable16.getModel().getValueAt(fila, columna1)).intValue();
+            int costo = ((Number) jTable16.getModel().getValueAt(fila, columna2)).intValue();
+            int x = ((Number) jTable16.getModel().getValueAt(fila, columna3)).intValue();
+            int y = ((Number) jTable16.getModel().getValueAt(fila, columna4)).intValue();
+            if (pinguinoConectado.getDinero() >= costo) {
+                pinguinoConectado.setCasa(new Casas(nombre, tamaño, costo, x, y, null));
+                jLabel45.setText(nombre);
+                jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
+                JOptionPane.showMessageDialog(null, "La casa fue comprada.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay una casa seleccionada.");
+        }
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // TODO add your handling code here:
+        if (pinguinoConectado.getCasa() != null) {
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea vender su casa?");
+            if (JOptionPane.OK_OPTION == respuesta) {
+                int valor1 = pinguinoConectado.getCasa().getCosto() + pinguinoConectado.getDinero();
+                int valor2 = 0;
+                if (pinguinoConectado.getCasa().getPuffles() != null) {
+                    for (int i = 0; i < pinguinoConectado.getCasa().getPuffles().size(); i++) {
+                        valor2 += pinguinoConectado.getCasa().getPuffles().get(i).getPrecio();
+                    }
+                } else {
+                    valor2 = 0;
+                }
+                pinguinoConectado.setDinero(valor1 + valor2);
+                pinguinoConectado.setCasa(null);
+                jLabel45.setText("Sin Casa");
+                jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
+                JOptionPane.showMessageDialog(null, "La casa fue vendida. Que tenga un buen día :).");
+            } else {
+                JOptionPane.showMessageDialog(null, "La casa no fue vendida. Que tenga un buen día.");
+
+            }
+
+        }
+    }//GEN-LAST:event_jButton21ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         ArrayList<Items> items = new ArrayList();
-        ArrayList<Casas> casas = new ArrayList();
+
         ArrayList<Items> items1 = new ArrayList();
-        ArrayList<Casas> casas1 = new ArrayList();
+
         ArrayList<Items> items2 = new ArrayList();
-        ArrayList<Casas> casas2 = new ArrayList();
+
         ArrayList<Items> items3 = new ArrayList();
-        ArrayList<Casas> casas3 = new ArrayList();
-        pinguinos.add(new Pinguinos("p", "p", true, 1000, items, casas));
-        pinguinos.add(new Pinguinos("Carlos", "123", true, 1000, items1, casas1));
-        pinguinos.add(new Pinguinos("Jose", "1234", true, 1000, items2, casas2));
-        pinguinos.add(new Pinguinos("Barahona", "12345", true, 1000, items3, casas3));
+
+        pinguinos.add(new Pinguinos("p", "p", true, 1000, items, null));
+        pinguinos.add(new Pinguinos("Carlos", "123", true, 1000, items1, null));
+        pinguinos.add(new Pinguinos("Jose", "1234", true, 1000, items2, null));
+        pinguinos.add(new Pinguinos("Barahona", "12345", true, 1000, items3, null));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1204,4 +1292,5 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
     static ArrayList<Pinguinos> pinguinos = new ArrayList();
+    static Pinguinos pinguinoConectado;
 }
