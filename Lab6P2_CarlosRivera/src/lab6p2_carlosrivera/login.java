@@ -299,17 +299,17 @@ public class login extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel12Layout.createSequentialGroup()
-                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextField16))
+                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jFormattedTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jFormattedTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel25))
-                        .addGap(25, 25, 25)
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jFormattedTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel28)
                             .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 94, Short.MAX_VALUE)))
+                        .addGap(0, 85, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
@@ -462,6 +462,11 @@ public class login extends javax.swing.JFrame {
         jFormattedTextField18.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         jButton18.setText("Crear");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField19.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
@@ -571,6 +576,11 @@ public class login extends javax.swing.JFrame {
         jScrollPane15.setViewportView(jTable15);
 
         jButton7.setText("Comprar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jTable16.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -987,7 +997,7 @@ public class login extends javax.swing.JFrame {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
-        Color c = jColorChooser1.showDialog(null, "Choose a Color", Color.RED);
+        Color c = jColorChooser1.showDialog(null, "Elige un Color", Color.RED);
         if (c != null) {
             jButton17.setBackground(c);
         }
@@ -995,6 +1005,15 @@ public class login extends javax.swing.JFrame {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
+        String nombre = jTextField12.getText();
+        Color color = jButton17.getBackground();
+        int precio = ((Number) jFormattedTextField17.getValue()).intValue();
+        DefaultTableModel model = (DefaultTableModel) jTable13.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTable19.getModel();
+
+        model.addRow(new Object[]{nombre, color, precio});
+        model2.addRow(new Object[]{nombre, color, precio});
+        JOptionPane.showMessageDialog(null, "Puffle creado");
 
     }//GEN-LAST:event_jButton16ActionPerformed
 
@@ -1006,8 +1025,8 @@ public class login extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable11.getModel();
         DefaultTableModel model2 = (DefaultTableModel) jTable16.getModel();
         Items item = new Items(nombre, precio, tipo);
-        model.addRow(new Items[]{item});
-        model2.addRow(new Items[]{item});
+        model.addRow(new Object[]{item.getNombre(), item.getPrecio(), item.getTipo()});
+        model2.addRow(new Object[]{item.getNombre(), item.getPrecio(), item.getTipo()});
         JOptionPane.showMessageDialog(null, "Item creado");
     }//GEN-LAST:event_jButton10ActionPerformed
 
@@ -1018,15 +1037,32 @@ public class login extends javax.swing.JFrame {
         int costo = ((Number) jFormattedTextField12.getValue()).intValue();
         int x = ((Number) jFormattedTextField15.getValue()).intValue();
         int y = ((Number) jFormattedTextField16.getValue()).intValue();
-         DefaultTableModel model = (DefaultTableModel) jTable12.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable12.getModel();
         DefaultTableModel model2 = (DefaultTableModel) jTable17.getModel();
-        ArrayList<Puffles> puffles=new ArrayList();
-        Casas casa = new Casas(nombre, tamaño, costo, x, y, puffles);
-        model.addRow(new Casas[]{casa});
-        model2.addRow(new Casas[]{casa});
-                JOptionPane.showMessageDialog(null, "Casa creado");
-        
+        ArrayList<Puffles> puffles = new ArrayList();
+        model.addRow(new Object[]{nombre, tamaño, costo, x, y});
+        model2.addRow(new Object[]{nombre, tamaño, costo, x, y});
+        JOptionPane.showMessageDialog(null, "Casa creada");
+
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+        String nombre = jTextField13.getText();
+        int costo = ((Number) jFormattedTextField19.getValue()).intValue();
+        int recompensa = ((Number) jFormattedTextField18.getValue()).intValue();
+        int probabilidad = ((Number) jFormattedTextField20.getValue()).intValue();
+        DefaultTableModel model = (DefaultTableModel) jTable14.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTable20.getModel();
+        model.addRow(new Object[]{nombre, costo, recompensa, probabilidad});
+        model2.addRow(new Object[]{nombre, costo, recompensa, probabilidad});
+        JOptionPane.showMessageDialog(null, "Juego creado");
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
