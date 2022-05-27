@@ -7,6 +7,7 @@ package lab6p2_carlosrivera;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -849,6 +850,11 @@ public class login extends javax.swing.JFrame {
         jScrollPane20.setViewportView(jTable20);
 
         jButton23.setText("Jugar");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -1109,13 +1115,13 @@ public class login extends javax.swing.JFrame {
         int columna2 = 2;
         int columna3 = 3;
         int columna4 = 4;
-        int fila = jTable16.getSelectedRow();
+        int fila = jTable17.getSelectedRow();
         if (fila >= 0) {
-            String nombre = jTable16.getModel().getValueAt(fila, columna).toString();
-            int tamaño = ((Number) jTable16.getModel().getValueAt(fila, columna1)).intValue();
-            int costo = ((Number) jTable16.getModel().getValueAt(fila, columna2)).intValue();
-            int x = ((Number) jTable16.getModel().getValueAt(fila, columna3)).intValue();
-            int y = ((Number) jTable16.getModel().getValueAt(fila, columna4)).intValue();
+            String nombre = jTable17.getModel().getValueAt(fila, columna).toString();
+            int tamaño = ((Number) jTable17.getModel().getValueAt(fila, columna1)).intValue();
+            int costo = ((Number) jTable17.getModel().getValueAt(fila, columna2)).intValue();
+            int x = ((Number) jTable17.getModel().getValueAt(fila, columna3)).intValue();
+            int y = ((Number) jTable17.getModel().getValueAt(fila, columna4)).intValue();
             if (pinguinoConectado.getDinero() >= costo) {
                 pinguinoConectado.setCasa(new Casas(nombre, tamaño, costo, x, y, null));
                 jLabel45.setText(nombre);
@@ -1146,6 +1152,8 @@ public class login extends javax.swing.JFrame {
                 }
                 pinguinoConectado.setDinero(valor1 + valor2);
                 pinguinoConectado.setCasa(null);
+                DefaultTableModel model = (DefaultTableModel) jTable18.getModel();
+                model.setRowCount(0);
                 jLabel45.setText("Sin Casa");
                 jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
                 JOptionPane.showMessageDialog(null, "La casa fue vendida. Que tenga un buen día :).");
@@ -1159,8 +1167,57 @@ public class login extends javax.swing.JFrame {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
-        
+        int columna = 0;
+        int columna1 = 1;
+        int columna2 = 2;
+        int fila = jTable19.getSelectedRow();
+        if (fila >= 0) {
+            String nombre = jTable19.getModel().getValueAt(fila, columna).toString();
+            Color color = (Color) jTable19.getModel().getValueAt(fila, columna1);
+            int precio = ((Number) jTable19.getModel().getValueAt(fila, columna2)).intValue();
+            if (pinguinoConectado.getDinero() >= precio && pinguinoConectado.getCasa() != null) {
+                pinguinoConectado.setDinero(pinguinoConectado.getDinero() - precio);
+                pinguinoConectado.getCasa().getPuffles().add(new Puffles(nombre, precio, color));
+                DefaultTableModel model2 = (DefaultTableModel) jTable18.getModel();
+                model2.addRow(new Object[]{nombre, color});
+                jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
+                JOptionPane.showMessageDialog(null, "Puffle fue comprado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay un puffle seleccionado.");
+        }
     }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        // TODO add your handling code here:
+        int columna = 1;
+        int columna1 = 2;
+        int columna2 = 3;
+        int fila = jTable19.getSelectedRow();
+        if (fila >= 0) {
+            int costo = ((Number) jTable19.getModel().getValueAt(fila, columna)).intValue();
+            int recompensa = ((Number) jTable19.getModel().getValueAt(fila, columna1)).intValue();
+            int probabilidad = ((Number) jTable19.getModel().getValueAt(fila, columna2)).intValue();
+            if (pinguinoConectado.getDinero() >= costo && pinguinoConectado.getCasa() != null) {
+                pinguinoConectado.setDinero(pinguinoConectado.getDinero() - costo);
+                boolean ganarOperder = new Random().nextInt(probabilidad) == 0;
+                if (ganarOperder) {
+                    pinguinoConectado.setDinero(pinguinoConectado.getDinero() + recompensa);
+                     JOptionPane.showMessageDialog(null, "Ganaste :D");
+                }else{
+                     JOptionPane.showMessageDialog(null, "Perdiste :(");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay un juego seleccionado.");
+        }
+    }//GEN-LAST:event_jButton23ActionPerformed
 
     /**
      * @param args the command line arguments
