@@ -758,6 +758,11 @@ public class login extends javax.swing.JFrame {
         jScrollPane18.setViewportView(jTable18);
 
         jButton22.setText("Comprar");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
 
         jLabel45.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
         jLabel45.setText("Sin Casa");
@@ -1151,6 +1156,11 @@ public class login extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton22ActionPerformed
 
     /**
      * @param args the command line arguments
