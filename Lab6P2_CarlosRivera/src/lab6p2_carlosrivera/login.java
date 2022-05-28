@@ -1020,6 +1020,9 @@ public class login extends javax.swing.JFrame {
 
                     }
 
+                } else {
+                    DefaultTableModel model = (DefaultTableModel) jTable15.getModel();
+                    model.setRowCount(0);
                 }
                 if (pinguinoConectado.getCasa().getPuffles() != null) {
                     String nombre = pinguinoConectado.getCasa().getNombre();
@@ -1030,6 +1033,10 @@ public class login extends javax.swing.JFrame {
 
                     }
 
+                } else {
+                    jLabel45.setText("Sin Casa");
+                    DefaultTableModel model = (DefaultTableModel) jTable18.getModel();
+                    model.setRowCount(0);
                 }
                 usuarioNormal();
                 JOptionPane.showMessageDialog(null, "Bienvenido " + usuario);
