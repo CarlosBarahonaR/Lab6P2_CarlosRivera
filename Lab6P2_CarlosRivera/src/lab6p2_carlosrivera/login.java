@@ -892,6 +892,11 @@ public class login extends javax.swing.JFrame {
         jLabel49.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
 
         jButton24.setText("Premium");
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
         jFrame2.getContentPane().setLayout(jFrame2Layout);
@@ -1008,7 +1013,24 @@ public class login extends javax.swing.JFrame {
                 jLabel49.setText(Integer.toString(pinguinos.get(i).getDinero()));
                 pinguinoConectado = pinguinos.get(i);
                 i = pinguinos.size();
+                if (pinguinoConectado.getItems() != null) {
+                    for (int j = 0; pinguinoConectado.getItems().size() < 10; j++) {
+                        DefaultTableModel model2 = (DefaultTableModel) jTable15.getModel();
+                        model2.addRow(new Object[]{pinguinoConectado.getItems().get(j).getNombre(), pinguinoConectado.getItems().get(j).getTipo()});
 
+                    }
+
+                }
+                if (pinguinoConectado.getCasa().getPuffles() != null) {
+                    String nombre = pinguinoConectado.getCasa().getNombre();
+                    jLabel45.setText(nombre);
+                    for (int j = 0; pinguinoConectado.getCasa().getPuffles().size() < 10; j++) {
+                        DefaultTableModel model2 = (DefaultTableModel) jTable18.getModel();
+                        model2.addRow(new Object[]{pinguinoConectado.getCasa().getPuffles().get(j).getNombre(), pinguinoConectado.getCasa().getPuffles().get(j).getColor()});
+
+                    }
+
+                }
                 usuarioNormal();
                 JOptionPane.showMessageDialog(null, "Bienvenido " + usuario);
             }
@@ -1061,7 +1083,7 @@ public class login extends javax.swing.JFrame {
         int y = ((Number) jFormattedTextField16.getValue()).intValue();
         DefaultTableModel model = (DefaultTableModel) jTable12.getModel();
         DefaultTableModel model2 = (DefaultTableModel) jTable17.getModel();
-        ArrayList<Puffles> puffles = new ArrayList();
+
         model.addRow(new Object[]{nombre, tamaño, costo, x, y});
         model2.addRow(new Object[]{nombre, tamaño, costo, x, y});
         JOptionPane.showMessageDialog(null, "Casa creada");
@@ -1074,11 +1096,16 @@ public class login extends javax.swing.JFrame {
         int costo = ((Number) jFormattedTextField19.getValue()).intValue();
         int recompensa = ((Number) jFormattedTextField18.getValue()).intValue();
         int probabilidad = ((Number) jFormattedTextField20.getValue()).intValue();
-        DefaultTableModel model = (DefaultTableModel) jTable14.getModel();
-        DefaultTableModel model2 = (DefaultTableModel) jTable20.getModel();
-        model.addRow(new Object[]{nombre, costo, recompensa, probabilidad});
-        model2.addRow(new Object[]{nombre, costo, recompensa, probabilidad});
-        JOptionPane.showMessageDialog(null, "Juego creado");
+        if (recompensa > costo) {
+            DefaultTableModel model = (DefaultTableModel) jTable14.getModel();
+            DefaultTableModel model2 = (DefaultTableModel) jTable20.getModel();
+            model.addRow(new Object[]{nombre, costo, recompensa, probabilidad});
+            model2.addRow(new Object[]{nombre, costo, recompensa, probabilidad});
+            JOptionPane.showMessageDialog(null, "Juego creado.");
+        } else {
+            JOptionPane.showMessageDialog(null, "El juego no fue creado porque el costo es mayor a la recompensa.");
+        }
+
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -1122,13 +1149,20 @@ public class login extends javax.swing.JFrame {
             int costo = ((Number) jTable17.getModel().getValueAt(fila, columna2)).intValue();
             int x = ((Number) jTable17.getModel().getValueAt(fila, columna3)).intValue();
             int y = ((Number) jTable17.getModel().getValueAt(fila, columna4)).intValue();
-            if (pinguinoConectado.getDinero() >= costo) {
-                pinguinoConectado.setCasa(new Casas(nombre, tamaño, costo, x, y, null));
+            if (pinguinoConectado.getDinero() >= costo && !pinguinoConectado.isSocio() && tamaño <= 200) {
+                ArrayList<Puffles> puffles = new ArrayList();
+                pinguinoConectado.setCasa(new Casas(nombre, tamaño, costo, x, y, puffles));
+                jLabel45.setText(nombre);
+                jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
+                JOptionPane.showMessageDialog(null, "La casa fue comprada.");
+            } else if (pinguinoConectado.getDinero() >= costo && pinguinoConectado.isSocio() && tamaño >= 200) {
+                ArrayList<Puffles> puffles = new ArrayList();
+                pinguinoConectado.setCasa(new Casas(nombre, tamaño, costo, x, y, puffles));
                 jLabel45.setText(nombre);
                 jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
                 JOptionPane.showMessageDialog(null, "La casa fue comprada.");
             } else {
-                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
+                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero o no es miembro para comprar el tamaño de ese hogar.");
             }
 
         } else {
@@ -1175,7 +1209,14 @@ public class login extends javax.swing.JFrame {
             String nombre = jTable19.getModel().getValueAt(fila, columna).toString();
             Color color = (Color) jTable19.getModel().getValueAt(fila, columna1);
             int precio = ((Number) jTable19.getModel().getValueAt(fila, columna2)).intValue();
-            if (pinguinoConectado.getDinero() >= precio && pinguinoConectado.getCasa() != null) {
+            if (pinguinoConectado.getDinero() >= precio && pinguinoConectado.getCasa() != null && !pinguinoConectado.isSocio() && pinguinoConectado.getCasa().getPuffles().size() <= 2) {
+                pinguinoConectado.setDinero(pinguinoConectado.getDinero() - precio);
+                pinguinoConectado.getCasa().getPuffles().add(new Puffles(nombre, precio, color));
+                DefaultTableModel model2 = (DefaultTableModel) jTable18.getModel();
+                model2.addRow(new Object[]{nombre, color});
+                jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
+                JOptionPane.showMessageDialog(null, "Puffle fue comprado.");
+            } else if (pinguinoConectado.getDinero() >= precio && pinguinoConectado.getCasa() != null && pinguinoConectado.isSocio()) {
                 pinguinoConectado.setDinero(pinguinoConectado.getDinero() - precio);
                 pinguinoConectado.getCasa().getPuffles().add(new Puffles(nombre, precio, color));
                 DefaultTableModel model2 = (DefaultTableModel) jTable18.getModel();
@@ -1183,7 +1224,7 @@ public class login extends javax.swing.JFrame {
                 jLabel49.setText(Integer.toString(pinguinoConectado.getDinero()));
                 JOptionPane.showMessageDialog(null, "Puffle fue comprado.");
             } else {
-                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
+                JOptionPane.showMessageDialog(null, "No tiene suficiente dinero o su pinguino no es socio para agregar más puffles.");
             }
 
         } else {
@@ -1206,9 +1247,9 @@ public class login extends javax.swing.JFrame {
                 boolean ganarOperder = new Random().nextInt(probabilidad) == 0;
                 if (ganarOperder) {
                     pinguinoConectado.setDinero(pinguinoConectado.getDinero() + recompensa);
-                     JOptionPane.showMessageDialog(null, "Ganaste :D");
-                }else{
-                     JOptionPane.showMessageDialog(null, "Perdiste :(");
+                    JOptionPane.showMessageDialog(null, "Ganaste :D");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Perdiste :(");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No tiene suficiente dinero.");
@@ -1218,6 +1259,17 @@ public class login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No hay un juego seleccionado.");
         }
     }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        // TODO add your handling code here:
+        if (pinguinoConectado.isSocio()) {
+            pinguinoConectado.setSocio(true);
+            JOptionPane.showMessageDialog(null, pinguinoConectado + " ahora su pinguino es socio.");
+        } else {
+            JOptionPane.showMessageDialog(null, pinguinoConectado + " usted ya es socio.");
+        }
+
+    }//GEN-LAST:event_jButton24ActionPerformed
 
     /**
      * @param args the command line arguments
